@@ -1,4 +1,4 @@
-<index html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
@@ -182,9 +182,20 @@ const snd=document.getElementById('snd');
 
 function speak(a){
   if(a.audio){
-    snd.src=a.audio;
-    snd.load();
-    snd.play().catch(()=>fallback(a.sound));
+    try{
+      snd.pause();
+      snd.src=a.audio;
+      snd.load();
+      const p=snd.play();
+      if(p!==undefined) p.catch(e=>{
+        console.log('audio err:',e.name);
+        // Fireタブレット対応: 少し遅らせて再試行
+        setTimeout(()=>{
+          const au2=new Audio(a.audio);
+          au2.play().catch(()=>fallback(a.sound));
+        },100);
+      });
+    }catch(e){fallback(a.sound);}
   } else {
     fallback(a.sound);
   }
@@ -193,12 +204,28 @@ function fallback(txt){
   try{
     if(!window.speechSynthesis)return;
     speechSynthesis.cancel();
-    const u=new SpeechSynthesisUtterance(txt);
-    u.lang='ja-JP';u.rate=0.85;u.pitch=1.5;u.volume=1;
-    speechSynthesis.speak(u);
+    const doSpeak=()=>{
+      const u=new SpeechSynthesisUtterance(txt);
+      u.lang='ja-JP';u.rate=0.85;u.pitch=1.5;u.volume=1;
+      const voices=speechSynthesis.getVoices();
+      if(voices.length>0){
+        const ja=voices.find(v=>v.lang==='ja-JP'||v.lang==='ja'||v.lang.startsWith('ja'));
+        if(ja) u.voice=ja;
+      }
+      speechSynthesis.speak(u);
+    };
+    const voices=speechSynthesis.getVoices();
+    if(voices.length>0) doSpeak();
+    else{
+      speechSynthesis.onvoiceschanged=doSpeak;
+      setTimeout(doSpeak,500);
+    }
   }catch(e){}
 }
-if(window.speechSynthesis) speechSynthesis.onvoiceschanged=()=>speechSynthesis.getVoices();
+if(window.speechSynthesis){
+  speechSynthesis.getVoices();
+  setTimeout(()=>speechSynthesis.getVoices(),200);
+}
 
 // ── Firebase ──
 function setSyncBadge(t){document.getElementById('sync-badge').textContent=t;}
@@ -434,14 +461,26 @@ document.getElementById('emok').addEventListener('click',async()=>{
   const name=document.getElementById('einame').value.trim();
   const sound=document.getElementById('eisound').value.trim();
   if(!name){alert('なまえを入れてね');return;}
-  const upd={name,sound:sound||animals.find(a=>a.id===editId)?.sound};
+  const a=animals.find(x=>x.id===editId);
+  if(!a){alert('データが見つかりません');return;}
+  const upd={name,sound:sound||a.sound};
   if(epdata!==null){setSyncBadge('画像圧縮中...');upd.img=await compressImage(epdata);}
-  if(eRecAudioData!==null)upd.audio=eRecAudioData;
+  if(eRecAudioData!==null) upd.audio=eRecAudioData;
   try{
     setSyncBadge('保存中...');
     await updateDoc(doc(db,'animals',editId),upd);
-    closeEditModal();setSyncBadge('✓');
-  }catch(e){alert('保存失敗: '+e.message);setSyncBadge('エラー');}
+    // ローカルのanimalsも即時更新
+    const idx=animals.findIndex(x=>x.id===editId);
+    if(idx>=0) animals[idx]={...animals[idx],...upd};
+    closeEditModal();
+    setAnimal(cur);
+    renderNav();
+    setSyncBadge('✓');
+    alert('保存しました！');
+  }catch(e){
+    alert('保存失敗: '+e.message);
+    setSyncBadge('エラー');
+  }
 });
 
 // ── 起動 ──
