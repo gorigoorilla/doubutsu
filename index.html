@@ -200,31 +200,32 @@ function speak(a){
     fallback(a.sound);
   }
 }
-function fallback(txt){
-  try{
-    if(!window.speechSynthesis)return;
-    speechSynthesis.cancel();
-    const doSpeak=()=>{
-      const u=new SpeechSynthesisUtterance(txt);
-      u.lang='ja-JP';u.rate=0.85;u.pitch=1.5;u.volume=1;
-      const voices=speechSynthesis.getVoices();
-      if(voices.length>0){
-        const ja=voices.find(v=>v.lang==='ja-JP'||v.lang==='ja'||v.lang.startsWith('ja'));
-        if(ja) u.voice=ja;
-      }
-      speechSynthesis.speak(u);
-    };
-    const voices=speechSynthesis.getVoices();
-    if(voices.length>0) doSpeak();
-    else{
-      speechSynthesis.onvoiceschanged=doSpeak;
-      setTimeout(doSpeak,500);
-    }
-  }catch(e){}
+let jaVoice=null;
+function initVoices(){
+  if(!window.speechSynthesis) return;
+  const voices=speechSynthesis.getVoices();
+  if(voices.length>0){
+    jaVoice=voices.find(v=>v.lang==='ja-JP')||
+             voices.find(v=>v.lang==='ja')||
+             voices.find(v=>v.lang.startsWith('ja'))||
+             null;
+  }
 }
 if(window.speechSynthesis){
-  speechSynthesis.getVoices();
-  setTimeout(()=>speechSynthesis.getVoices(),200);
+  speechSynthesis.onvoiceschanged=initVoices;
+  initVoices();
+  setTimeout(initVoices,500);
+  setTimeout(initVoices,1500);
+}
+function fallback(txt){
+  try{
+    if(!window.speechSynthesis) return;
+    speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(txt);
+    u.lang='ja-JP';u.rate=0.85;u.pitch=1.5;u.volume=1;
+    if(jaVoice) u.voice=jaVoice;
+    speechSynthesis.speak(u);
+  }catch(e){}
 }
 
 // ── Firebase ──
@@ -443,6 +444,9 @@ document.getElementById('efinp').addEventListener('change',e=>{
   const r=new FileReader();r.onload=ev=>{epdata=ev.target.result;document.getElementById('epprev').innerHTML=`<img src="${epdata}">`;};r.readAsDataURL(f);e.target.value='';
 });
 function openEditModal(i){
+  setTimeout(()=>_openEditModal(i),350);
+}
+function _openEditModal(i){
   const a=animals[i];editId=a.id;epdata=null;eRecAudioData=null;
   document.getElementById('einame').value=a.name||'';
   document.getElementById('eisound').value=a.sound||'';
