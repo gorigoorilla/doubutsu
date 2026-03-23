@@ -13,6 +13,14 @@
 html,body{height:100%;overflow:hidden;background:#fff8f0;}
 body{font-family:-apple-system,'Hiragino Maru Gothic Pro',sans-serif;}
 #app{display:flex;flex-direction:column;height:100dvh;max-width:480px;margin:0 auto;overflow:hidden;}
+#nav{height:calc(72px + env(safe-area-inset-top,0px));background:rgba(255,255,255,0.97);border-bottom:1px solid rgba(0,0,0,0.07);display:flex;align-items:flex-end;padding-bottom:10px;padding-top:max(10px,env(safe-area-inset-top));padding-left:max(10px,env(safe-area-inset-left));padding-right:max(10px,env(safe-area-inset-right));gap:8px;overflow-x:auto;scrollbar-width:none;flex-shrink:0;}
+#nav::-webkit-scrollbar{display:none;}
+.ni{flex-shrink:0;width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:2.5px solid transparent;transition:all .15s;overflow:hidden;background:#f5f5f5;}
+.ni.on{border-color:#FF9F43;box-shadow:0 2px 10px rgba(255,159,67,0.4);}
+.ni img{width:100%;height:100%;object-fit:cover;border-radius:11px;pointer-events:none;}
+.ni .ne{font-size:28px;pointer-events:none;}
+.nadd{background:#f0f0f0;border:2px dashed #ccc!important;}
+.nadd span{font-size:26px;color:#aaa;line-height:1;}
 #stage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;transition:background .4s;background:#FF9F43;}
 .aw{display:flex;flex-direction:column;align-items:center;gap:12px;position:relative;z-index:2;pointer-events:none;}
 #aemoji{font-size:140px;line-height:1;transition:transform .15s;}
@@ -22,24 +30,24 @@ body{font-family:-apple-system,'Hiragino Maru Gothic Pro',sans-serif;}
 #aname{font-size:36px;font-weight:700;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,0.2);}
 #asound{font-size:22px;color:rgba(255,255,255,0.85);}
 #hint{position:absolute;bottom:20px;left:0;right:0;text-align:center;font-size:13px;color:rgba(255,255,255,0.7);pointer-events:none;}
-#cnt{position:absolute;top:max(16px,env(safe-area-inset-top,16px));right:max(16px,env(safe-area-inset-right,16px));background:rgba(255,255,255,0.25);border-radius:99px;padding:4px 14px;font-size:15px;font-weight:700;color:#fff;z-index:3;pointer-events:none;}
-#sync-badge{position:absolute;top:max(16px,env(safe-area-inset-top,16px));left:max(16px,env(safe-area-inset-left,16px));background:rgba(255,255,255,0.25);border-radius:99px;padding:4px 10px;font-size:11px;color:#fff;z-index:3;pointer-events:none;}
+#cnt{position:absolute;bottom:20px;right:max(16px,env(safe-area-inset-right,16px));background:rgba(255,255,255,0.25);border-radius:99px;padding:4px 14px;font-size:15px;font-weight:700;color:#fff;z-index:3;pointer-events:none;}
+#sync-badge{position:absolute;top:12px;left:max(12px,env(safe-area-inset-left,12px));background:rgba(255,255,255,0.25);border-radius:99px;padding:4px 10px;font-size:11px;color:#fff;z-index:3;pointer-events:none;}
 .bubble{position:absolute;border-radius:50%;pointer-events:none;animation:rise 1.1s ease-out forwards;z-index:5;}
 @keyframes rise{0%{opacity:.9;transform:translateY(0) scale(1);}100%{opacity:0;transform:translateY(-200px) scale(1.8);}}
 .npop{position:absolute;pointer-events:none;animation:nrise .9s ease-out forwards;z-index:6;font-weight:700;font-size:28px;color:#fff;text-shadow:0 2px 4px rgba(0,0,0,0.2);}
 @keyframes nrise{0%{opacity:1;transform:translateY(0);}100%{opacity:0;transform:translateY(-80px);}}
-#nav{height:calc(72px + env(safe-area-inset-bottom,0px));background:rgba(255,255,255,0.97);border-top:1px solid rgba(0,0,0,0.07);display:flex;align-items:center;padding-top:10px;padding-bottom:max(10px,env(safe-area-inset-bottom));padding-left:max(10px,env(safe-area-inset-left));padding-right:max(10px,env(safe-area-inset-right));gap:8px;overflow-x:auto;scrollbar-width:none;flex-shrink:0;}
-#nav::-webkit-scrollbar{display:none;}
-.ni{flex-shrink:0;width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:2.5px solid transparent;transition:all .15s;overflow:hidden;background:#f5f5f5;}
-.ni.on{border-color:#FF9F43;box-shadow:0 2px 10px rgba(255,159,67,0.4);}
-.ni img{width:100%;height:100%;object-fit:cover;border-radius:11px;pointer-events:none;}
-.ni .ne{font-size:28px;pointer-events:none;}
-.nadd{background:#f0f0f0;border:2px dashed #ccc!important;}
-.nadd span{font-size:26px;color:#aaa;line-height:1;}
 #loading-overlay{position:fixed;inset:0;background:#FF9F43;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;color:#fff;}
 #loading-overlay .logo{font-size:64px;margin-bottom:12px;}
 #loading-overlay .ltxt{font-size:18px;font-weight:700;margin-bottom:6px;}
 #loading-overlay .lsub{font-size:13px;opacity:.7;}
+#login-screen{position:fixed;inset:0;background:#FF9F43;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:998;color:#fff;display:none;}
+#login-screen .logo{font-size:80px;margin-bottom:16px;}
+#login-screen h1{font-size:24px;font-weight:700;margin-bottom:8px;}
+#login-screen p{font-size:14px;opacity:.8;margin-bottom:32px;}
+#login-btn{background:#fff;color:#FF9F43;border:none;border-radius:14px;padding:14px 32px;font-size:16px;font-weight:700;font-family:inherit;cursor:pointer;display:flex;align-items:center;gap:10px;box-shadow:0 4px 16px rgba(0,0,0,0.15);}
+#login-btn:active{transform:scale(0.97);}
+#login-btn img{width:22px;height:22px;}
+#user-badge{position:absolute;top:12px;right:max(12px,env(safe-area-inset-right,12px));background:rgba(255,255,255,0.25);border-radius:99px;padding:4px 10px;font-size:11px;color:#fff;z-index:3;cursor:pointer;}
 #mbg,#embg{position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:100;display:none;align-items:flex-end;justify-content:center;}
 #mbg.on,#embg.on{display:flex;}
 #modal,#emmodal{background:#fff;border-radius:24px 24px 0 0;padding:20px 20px 44px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;}
@@ -77,10 +85,23 @@ body{font-family:-apple-system,'Hiragino Maru Gothic Pro',sans-serif;}
   <div class="ltxt">どうぶつ</div>
   <div class="lsub">読み込み中...</div>
 </div>
+<div id="login-screen">
+  <div class="logo">🐾</div>
+  <h1>どうぶつ</h1>
+  <p>Googleアカウントでログインしてね</p>
+  <button id="login-btn">
+    <img src="https://www.google.com/favicon.ico" alt="G">
+    Googleでログイン
+  </button>
+</div>
 <audio id="snd" style="display:none"></audio>
 <div id="app">
+  <div id="nav">
+    <div class="nadd ni" id="btnadd"><span>+</span></div>
+  </div>
   <div id="stage">
     <div id="sync-badge">✓</div>
+    <div id="user-badge">ログアウト</div>
     <div id="cnt">0</div>
     <div class="aw">
       <div id="aemoji">🐶</div>
@@ -89,9 +110,6 @@ body{font-family:-apple-system,'Hiragino Maru Gothic Pro',sans-serif;}
       <div id="asound">わんわん</div>
     </div>
     <div id="hint">タップしてね</div>
-  </div>
-  <div id="nav">
-    <div class="nadd ni" id="btnadd"><span>+</span></div>
   </div>
 </div>
 <div id="mbg">
@@ -104,11 +122,7 @@ body{font-family:-apple-system,'Hiragino Maru Gothic Pro',sans-serif;}
     <div class="rec-area">
       <div class="rec-top"><div class="rec-title">なきごえを録音</div><div class="rec-status" id="rec-status">準備OK</div></div>
       <div class="rec-wave" id="rec-wave">
-        <div class="bar" style="height:6px"></div><div class="bar" style="height:10px"></div>
-        <div class="bar" style="height:6px"></div><div class="bar" style="height:14px"></div>
-        <div class="bar" style="height:8px"></div><div class="bar" style="height:12px"></div>
-        <div class="bar" style="height:6px"></div><div class="bar" style="height:10px"></div>
-        <div class="bar" style="height:6px"></div>
+        <div class="bar" style="height:6px"></div><div class="bar" style="height:10px"></div><div class="bar" style="height:6px"></div><div class="bar" style="height:14px"></div><div class="bar" style="height:8px"></div><div class="bar" style="height:12px"></div><div class="bar" style="height:6px"></div><div class="bar" style="height:10px"></div><div class="bar" style="height:6px"></div>
       </div>
       <div class="rec-btns">
         <button class="rbtn rec" id="btn-rec">録音開始</button>
@@ -134,11 +148,7 @@ body{font-family:-apple-system,'Hiragino Maru Gothic Pro',sans-serif;}
     <div class="rec-area">
       <div class="rec-top"><div class="rec-title">なきごえを録音</div><div class="rec-status" id="erec-status">準備OK</div></div>
       <div class="rec-wave" id="erec-wave">
-        <div class="bar" style="height:6px"></div><div class="bar" style="height:10px"></div>
-        <div class="bar" style="height:6px"></div><div class="bar" style="height:14px"></div>
-        <div class="bar" style="height:8px"></div><div class="bar" style="height:12px"></div>
-        <div class="bar" style="height:6px"></div><div class="bar" style="height:10px"></div>
-        <div class="bar" style="height:6px"></div>
+        <div class="bar" style="height:6px"></div><div class="bar" style="height:10px"></div><div class="bar" style="height:6px"></div><div class="bar" style="height:14px"></div><div class="bar" style="height:8px"></div><div class="bar" style="height:12px"></div><div class="bar" style="height:6px"></div><div class="bar" style="height:10px"></div><div class="bar" style="height:6px"></div>
       </div>
       <div class="rec-btns">
         <button class="rbtn rec" id="ebtn-rec">録音開始</button>
@@ -157,9 +167,14 @@ body{font-family:-apple-system,'Hiragino Maru Gothic Pro',sans-serif;}
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import {getFirestore,collection,getDocs,addDoc,updateDoc,deleteDoc,doc,onSnapshot,orderBy,query} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import {getAuth,GoogleAuthProvider,signInWithPopup,signOut,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
 const firebaseConfig={apiKey:"AIzaSyDBRJo-sjKrU_I1qmpT8vT984WHig3GoaQ",authDomain:"doubutsu-39cd6.firebaseapp.com",projectId:"doubutsu-39cd6",storageBucket:"doubutsu-39cd6.firebasestorage.app",messagingSenderId:"665574501069",appId:"1:665574501069:web:f3867e7979d07cee6fd784"};
 const fbapp=initializeApp(firebaseConfig);
 const db=getFirestore(fbapp);
+const auth=getAuth(fbapp);
+const provider=new GoogleAuthProvider();
+
 const BGS=['#FF9F43','#FF6B9D','#5E9CFF','#3DC3A3','#A78BFA','#FB7185','#34D399','#FBBF24'];
 const BCS=['#FF6B6B','#FF9F43','#FFDD57','#48C774','#3273DC','#B86BFF','#FF6B9D','#5E9CFF'];
 const DEFS=[
@@ -172,76 +187,110 @@ const DEFS=[
   {emoji:'🐘',name:'ぞう',sound:'ぱおーん',img:null,audio:null,bg:'#A78BFA',order:6},
   {emoji:'🦁',name:'らいおん',sound:'がおー',img:null,audio:null,bg:'#FB7185',order:7},
 ];
-let animals=[],cur=0,cnt=0,switching=false;
+
+let animals=[],cur=0,cnt=0,switching=false,uid=null,unsubAnimals=null;
 let mediaRec=null,recAudioData=null,waveTimer=null,pdata=null;
 let eMediaRec=null,eRecAudioData=null,eWaveTimer=null,epdata=null,editId=null;
 
-// ── 音声 ──
-// グローバルなaudio要素を再利用（iOS対応）
 const snd=document.getElementById('snd');
 
-function speak(a){
-  if(a.audio){
-    try{
-      snd.pause();
-      snd.src=a.audio;
-      snd.load();
-      const p=snd.play();
-      if(p!==undefined) p.catch(e=>{
-        console.log('audio err:',e.name);
-        // Fireタブレット対応: 少し遅らせて再試行
-        setTimeout(()=>{
-          const au2=new Audio(a.audio);
-          au2.play().catch(()=>fallback(a.sound));
-        },100);
-      });
-    }catch(e){fallback(a.sound);}
-  } else {
-    fallback(a.sound);
-  }
-}
+// ── 音声 ──
 let jaVoice=null;
 function initVoices(){
-  if(!window.speechSynthesis) return;
-  const voices=speechSynthesis.getVoices();
-  if(voices.length>0){
-    jaVoice=voices.find(v=>v.lang==='ja-JP')||
-             voices.find(v=>v.lang==='ja')||
-             voices.find(v=>v.lang.startsWith('ja'))||
-             null;
-  }
+  if(!window.speechSynthesis)return;
+  const vs=speechSynthesis.getVoices();
+  if(vs.length>0) jaVoice=vs.find(v=>v.lang==='ja-JP')||vs.find(v=>v.lang.startsWith('ja'))||null;
 }
 if(window.speechSynthesis){
   speechSynthesis.onvoiceschanged=initVoices;
   initVoices();
-  setTimeout(initVoices,500);
-  setTimeout(initVoices,1500);
+  setTimeout(initVoices,500);setTimeout(initVoices,1500);
+}
+function speak(a){
+  if(a.audio){
+    try{
+      snd.pause();snd.src=a.audio;snd.load();
+      snd.play().catch(()=>{const au=new Audio(a.audio);au.play().catch(()=>fallback(a.sound));});
+    }catch(e){fallback(a.sound);}
+  } else fallback(a.sound);
 }
 function fallback(txt){
   try{
-    if(!window.speechSynthesis) return;
+    if(!window.speechSynthesis)return;
     speechSynthesis.cancel();
     const u=new SpeechSynthesisUtterance(txt);
     u.lang='ja-JP';u.rate=0.85;u.pitch=1.5;u.volume=1;
-    if(jaVoice) u.voice=jaVoice;
+    if(jaVoice)u.voice=jaVoice;
     speechSynthesis.speak(u);
   }catch(e){}
 }
 
+// 他アプリ切替時に音声停止
+document.addEventListener('visibilitychange',()=>{
+  if(document.hidden){snd.pause();if(window.speechSynthesis)speechSynthesis.cancel();}
+});
+
+// ── 認証 ──
+document.getElementById('login-btn').addEventListener('click',async()=>{
+  try{await signInWithPopup(auth,provider);}catch(e){alert('ログインに失敗しました');}
+});
+document.getElementById('user-badge').addEventListener('click',async()=>{
+  if(confirm('ログアウトしますか？')){await signOut(auth);}
+});
+
+onAuthStateChanged(auth,async user=>{
+  if(user){
+    uid=user.uid;
+    document.getElementById('login-screen').style.display='none';
+    document.getElementById('user-badge').textContent=user.displayName?.split(' ')[0]||'ログアウト';
+    await initAnimals();
+    subscribeAnimals();
+    document.getElementById('loading-overlay').style.display='none';
+  } else {
+    uid=null;
+    if(unsubAnimals){unsubAnimals();unsubAnimals=null;}
+    document.getElementById('loading-overlay').style.display='none';
+    document.getElementById('login-screen').style.display='flex';
+  }
+});
+
 // ── Firebase ──
+function colRef(){return collection(db,'animals',uid,'list');}
 function setSyncBadge(t){document.getElementById('sync-badge').textContent=t;}
+
+async function migrateOldData(){
+  // 古い共有animalsコレクションからユーザーのコレクションに移行
+  try{
+    const oldSnap=await getDocs(query(collection(db,'animals'),orderBy('order','asc')));
+    if(oldSnap.empty) return;
+    const newSnap=await getDocs(colRef());
+    // 新しい場所にデータがなければ移行
+    if(newSnap.empty){
+      setSyncBadge('データ移行中...');
+      for(const d of oldSnap.docs){
+        const data=d.data();
+        // サブコレクション（uidがキーのやつ）は無視
+        if(data.name) await addDoc(colRef(),data);
+      }
+    }
+  }catch(e){console.log('migrate err:',e);}
+}
+
 async function initAnimals(){
   setSyncBadge('同期中...');
   try{
-    const snap=await getDocs(query(collection(db,'animals'),orderBy('order','asc')));
-    if(snap.empty){for(const d of DEFS)await addDoc(collection(db,'animals'),d);}
-    const snap2=await getDocs(query(collection(db,'animals'),orderBy('order','asc')));
+    await migrateOldData();
+    const snap=await getDocs(query(colRef(),orderBy('order','asc')));
+    if(snap.empty){for(const d of DEFS)await addDoc(colRef(),d);}
+    const snap2=await getDocs(query(colRef(),orderBy('order','asc')));
     animals=snap2.docs.map(d=>({id:d.id,...d.data()}));
     setSyncBadge('✓');
   }catch(e){setSyncBadge('オフライン');}
 }
+
 function subscribeAnimals(){
-  onSnapshot(query(collection(db,'animals'),orderBy('order','asc')),snap=>{
+  if(unsubAnimals)unsubAnimals();
+  unsubAnimals=onSnapshot(query(colRef(),orderBy('order','asc')),snap=>{
     animals=snap.docs.map(d=>({id:d.id,...d.data()}));
     if(cur>=animals.length)cur=Math.max(0,animals.length-1);
     renderNav();
@@ -261,9 +310,9 @@ function setAnimal(i){
   if(a.img){im.src=a.img;im.style.display='block';em.style.display='none';}
   else{em.textContent=a.emoji||'🐾';em.style.display='block';im.style.display='none';}
   document.querySelectorAll('.ni:not(.nadd)').forEach((el,j)=>el.classList.toggle('on',j===i));
-  // 音声を事前セット
   if(a.audio){snd.src=a.audio;snd.load();}
 }
+
 function renderNav(){
   const nav=document.getElementById('nav'),add=document.getElementById('btnadd');
   nav.querySelectorAll('.ni:not(.nadd)').forEach(el=>el.remove());
@@ -271,16 +320,15 @@ function renderNav(){
     const el=document.createElement('div');
     el.className='ni'+(i===cur?' on':'');
     el.innerHTML=a.img?`<img src="${a.img}" alt="${a.name}" draggable="false">`:`<span class="ne">${a.emoji||'🐾'}</span>`;
-    el.addEventListener('click',()=>{
-      cur=i;cnt=0;document.getElementById('cnt').textContent='0';
-      setAnimal(i);speak(a);
-    });
-    let pt=null;
-    el.addEventListener('touchstart',()=>{pt=setTimeout(()=>{
+    el.addEventListener('click',()=>{cur=i;cnt=0;document.getElementById('cnt').textContent='0';setAnimal(i);speak(a);});
+    let pt=null,moved=false;
+    el.addEventListener('touchstart',()=>{moved=false;pt=setTimeout(()=>{
+      if(moved)return;
       const c=confirm(a.name+'\n\nOK → 編集　キャンセル → 削除');
       if(c)openEditModal(i);
-      else if(confirm(a.name+'を削除する？'))deleteDoc(doc(db,'animals',a.id));
+      else if(confirm(a.name+'を削除する？'))deleteDoc(doc(db,'animals',uid,'list',a.id));
     },700);},{passive:true});
+    el.addEventListener('touchmove',()=>{moved=true;clearTimeout(pt);},{passive:true});
     el.addEventListener('touchend',()=>clearTimeout(pt),{passive:true});
     nav.insertBefore(el,add);
   });
@@ -307,23 +355,18 @@ function spawnNum(cx,cy,n){
 document.getElementById('stage').addEventListener('click',e=>{
   if(!animals[cur]||switching)return;
   const a=animals[cur];
-  cnt++;
-  document.getElementById('cnt').textContent=cnt;
-  spawnBubbles(e.clientX,e.clientY);
-  spawnNum(e.clientX,e.clientY,cnt);
+  cnt++;document.getElementById('cnt').textContent=cnt;
+  spawnBubbles(e.clientX,e.clientY);spawnNum(e.clientX,e.clientY,cnt);
   speak(a);
   const tgt=a.img?document.getElementById('aimg'):document.getElementById('aemoji');
   tgt.classList.remove('pop');void tgt.offsetWidth;tgt.classList.add('pop');
   setTimeout(()=>tgt.classList.remove('pop'),200);
   if(cnt>=5){
-    switching=true;cnt=0;
-    document.getElementById('cnt').textContent='0';
+    switching=true;cnt=0;document.getElementById('cnt').textContent='0';
     cur=(cur+1)%animals.length;
     setTimeout(()=>{setAnimal(cur);renderNav();speak(animals[cur]);switching=false;},400);
   }
 });
-
-// 右クリック・長押しメニュー防止
 document.addEventListener('contextmenu',e=>{e.preventDefault();return false;});
 
 // ── 録音ヘルパー ──
@@ -338,8 +381,7 @@ function animWave(waveId,active,timer){
   const bars=document.querySelectorAll('#'+waveId+' .bar');
   if(timer)clearInterval(timer);
   if(active)return setInterval(()=>bars.forEach(b=>{b.style.height=(6+Math.random()*26)+'px';}),120);
-  bars.forEach((b,i)=>{b.style.height=[6,10,6,14,8,12,6,10,6][i]+'px';});
-  return null;
+  bars.forEach((b,i)=>{b.style.height=[6,10,6,14,8,12,6,10,6][i]+'px';});return null;
 }
 async function compressImage(b64,max=400){
   return new Promise(res=>{
@@ -348,21 +390,18 @@ async function compressImage(b64,max=400){
       const c=document.createElement('canvas');
       let w=img.width,h=img.height;
       if(w>h){if(w>max){h=h*max/w;w=max;}}else{if(h>max){w=w*max/h;h=max;}}
-      c.width=w;c.height=h;
-      c.getContext('2d').drawImage(img,0,0,w,h);
+      c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);
       res(c.toDataURL('image/jpeg',0.7));
     };
-    img.onerror=()=>res(b64);
-    img.src=b64;
+    img.onerror=()=>res(b64);img.src=b64;
   });
 }
-function setupRecBtn(recId,stopId,statusId,waveId,onData){
+function setupRec(recId,stopId,statusId,waveId,playId,onData){
   let mr=null,timer=null;
   document.getElementById(recId).addEventListener('click',async()=>{
     try{
       const stream=await navigator.mediaDevices.getUserMedia({audio:true});
-      const chunks=[];
-      const mt=getMime();
+      const chunks=[];const mt=getMime();
       mr=mt?new MediaRecorder(stream,{mimeType:mt}):new MediaRecorder(stream);
       mr.ondataavailable=e=>{if(e.data.size>0)chunks.push(e.data);};
       mr.onstop=()=>{
@@ -372,14 +411,13 @@ function setupRecBtn(recId,stopId,statusId,waveId,onData){
         reader.readAsDataURL(blob);
         stream.getTracks().forEach(t=>t.stop());
         document.getElementById(statusId).textContent='録音完了！';
-        document.getElementById(recId.replace('btn-rec','btn-play').replace('ebtn-rec','ebtn-play')).disabled=false;
+        document.getElementById(playId).disabled=false;
         timer=animWave(waveId,false,timer);
         document.getElementById(recId).classList.remove('recording');
         document.getElementById(recId).textContent='録音開始';
         document.getElementById(stopId).disabled=true;
       };
       mr.start();
-      // 3秒で自動停止
       setTimeout(()=>{if(mr&&mr.state!=='inactive')mr.stop();},3000);
       document.getElementById(recId).classList.add('recording');
       document.getElementById(recId).textContent='録音中(最大3秒)';
@@ -388,15 +426,11 @@ function setupRecBtn(recId,stopId,statusId,waveId,onData){
       timer=animWave(waveId,true,timer);
     }catch(e){alert('マイクへのアクセスを許可してください');}
   });
-  document.getElementById(stopId).addEventListener('click',()=>{
-    if(mr&&mr.state!=='inactive')mr.stop();
-  });
-  return ()=>{if(mr&&mr.state!=='inactive')mr.stop();timer=animWave(waveId,false,timer);};
+  document.getElementById(stopId).addEventListener('click',()=>{if(mr&&mr.state!=='inactive')mr.stop();});
 }
 
 // ── 追加モーダル ──
-let stopAddRec=null;
-setupRecBtn('btn-rec','btn-stop','rec-status','rec-wave',d=>recAudioData=d);
+setupRec('btn-rec','btn-stop','rec-status','rec-wave','btn-play',d=>recAudioData=d);
 document.getElementById('btn-play').addEventListener('click',()=>{if(recAudioData){const au=new Audio(recAudioData);au.play();}});
 document.getElementById('pprev').addEventListener('click',()=>document.getElementById('finp').click());
 document.getElementById('finp').addEventListener('change',e=>{
@@ -404,6 +438,7 @@ document.getElementById('finp').addEventListener('change',e=>{
   const r=new FileReader();r.onload=ev=>{pdata=ev.target.result;document.getElementById('pprev').innerHTML=`<img src="${pdata}">`;};r.readAsDataURL(f);e.target.value='';
 });
 document.getElementById('btnadd').addEventListener('click',()=>{
+  if(!uid){alert('ログインしてください');return;}
   pdata=null;recAudioData=null;
   document.getElementById('iname').value='';document.getElementById('isound').value='';
   document.getElementById('pprev').innerHTML='<span>写真をタップして選ぶ</span>';
@@ -424,16 +459,13 @@ document.getElementById('mok').addEventListener('click',async()=>{
     setSyncBadge('保存中...');
     let imgToSave=null;
     if(pdata){setSyncBadge('画像圧縮中...');imgToSave=await compressImage(pdata);}
-    await addDoc(collection(db,'animals'),{
-      emoji:'🐾',name,sound,img:imgToSave||null,audio:recAudioData||null,
-      bg:BGS[animals.length%BGS.length],order:animals.length
-    });
+    await addDoc(colRef(),{emoji:'🐾',name,sound,img:imgToSave||null,audio:recAudioData||null,bg:BGS[animals.length%BGS.length],order:animals.length});
     closeAddModal();setSyncBadge('✓');
   }catch(e){alert('保存失敗: '+e.message);setSyncBadge('エラー');}
 });
 
 // ── 編集モーダル ──
-setupRecBtn('ebtn-rec','ebtn-stop','erec-status','erec-wave',d=>eRecAudioData=d);
+setupRec('ebtn-rec','ebtn-stop','erec-status','erec-wave','ebtn-play',d=>eRecAudioData=d);
 document.getElementById('ebtn-play').addEventListener('click',()=>{
   const src=eRecAudioData||(editId?animals.find(a=>a.id===editId)?.audio:null);
   if(src){const au=new Audio(src);au.play();}
@@ -444,18 +476,17 @@ document.getElementById('efinp').addEventListener('change',e=>{
   const r=new FileReader();r.onload=ev=>{epdata=ev.target.result;document.getElementById('epprev').innerHTML=`<img src="${epdata}">`;};r.readAsDataURL(f);e.target.value='';
 });
 function openEditModal(i){
-  setTimeout(()=>_openEditModal(i),350);
-}
-function _openEditModal(i){
-  const a=animals[i];editId=a.id;epdata=null;eRecAudioData=null;
-  document.getElementById('einame').value=a.name||'';
-  document.getElementById('eisound').value=a.sound||'';
-  document.getElementById('epprev').innerHTML=a.img?`<img src="${a.img}">`:'<span>写真をタップして変更</span>';
-  document.getElementById('erec-status').textContent=a.audio?'録音済み':'準備OK';
-  document.getElementById('ebtn-rec').classList.remove('recording');document.getElementById('ebtn-rec').textContent='録音開始';
-  document.getElementById('ebtn-stop').disabled=true;document.getElementById('ebtn-play').disabled=!a.audio;
-  animWave('erec-wave',false,null);
-  document.getElementById('embg').classList.add('on');
+  setTimeout(()=>{
+    const a=animals[i];editId=a.id;epdata=null;eRecAudioData=null;
+    document.getElementById('einame').value=a.name||'';
+    document.getElementById('eisound').value=a.sound||'';
+    document.getElementById('epprev').innerHTML=a.img?`<img src="${a.img}">`:'<span>写真をタップして変更</span>';
+    document.getElementById('erec-status').textContent=a.audio?'録音済み':'準備OK';
+    document.getElementById('ebtn-rec').classList.remove('recording');document.getElementById('ebtn-rec').textContent='録音開始';
+    document.getElementById('ebtn-stop').disabled=true;document.getElementById('ebtn-play').disabled=!a.audio;
+    animWave('erec-wave',false,null);
+    document.getElementById('embg').classList.add('on');
+  },350);
 }
 function closeEditModal(){document.getElementById('embg').classList.remove('on');}
 document.getElementById('emcancel').addEventListener('click',closeEditModal);
@@ -466,33 +497,17 @@ document.getElementById('emok').addEventListener('click',async()=>{
   const sound=document.getElementById('eisound').value.trim();
   if(!name){alert('なまえを入れてね');return;}
   const a=animals.find(x=>x.id===editId);
-  if(!a){alert('データが見つかりません');return;}
+  if(!a)return;
   const upd={name,sound:sound||a.sound};
   if(epdata!==null){setSyncBadge('画像圧縮中...');upd.img=await compressImage(epdata);}
-  if(eRecAudioData!==null) upd.audio=eRecAudioData;
+  if(eRecAudioData!==null)upd.audio=eRecAudioData;
   try{
     setSyncBadge('保存中...');
-    await updateDoc(doc(db,'animals',editId),upd);
-    // ローカルのanimalsも即時更新
+    await updateDoc(doc(db,'animals',uid,'list',editId),upd);
     const idx=animals.findIndex(x=>x.id===editId);
-    if(idx>=0) animals[idx]={...animals[idx],...upd};
-    closeEditModal();
-    setAnimal(cur);
-    renderNav();
-    setSyncBadge('✓');
-    alert('保存しました！');
-  }catch(e){
-    alert('保存失敗: '+e.message);
-    setSyncBadge('エラー');
-  }
-});
-
-// ── 起動 ──
-initAnimals().then(()=>{
-  renderNav();
-  if(animals.length>0)setAnimal(0);
-  subscribeAnimals();
-  document.getElementById('loading-overlay').style.display='none';
+    if(idx>=0)animals[idx]={...animals[idx],...upd};
+    closeEditModal();setAnimal(cur);renderNav();setSyncBadge('✓');
+  }catch(e){alert('保存失敗: '+e.message);setSyncBadge('エラー');}
 });
 </script>
 </body>
