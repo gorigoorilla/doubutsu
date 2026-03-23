@@ -13,7 +13,15 @@
 html,body{height:100%;overflow:hidden;background:#fff8f0;}
 body{font-family:-apple-system,'Hiragino Maru Gothic Pro',sans-serif;}
 #app{display:flex;flex-direction:column;height:100dvh;max-width:480px;margin:0 auto;overflow:hidden;}
-#nav{height:calc(72px + env(safe-area-inset-top,0px));background:rgba(255,255,255,0.97);border-bottom:1px solid rgba(0,0,0,0.07);display:flex;align-items:flex-end;padding-bottom:10px;padding-top:max(10px,env(safe-area-inset-top));padding-left:max(10px,env(safe-area-inset-left));padding-right:max(10px,env(safe-area-inset-right));gap:8px;overflow-x:auto;scrollbar-width:none;flex-shrink:0;}
+#cat-bar{height:44px;background:rgba(255,255,255,0.97);border-bottom:1px solid rgba(0,0,0,0.07);display:flex;align-items:center;padding:0 10px;gap:6px;overflow-x:auto;scrollbar-width:none;flex-shrink:0;padding-top:max(0px,env(safe-area-inset-top));}
+#cat-bar::-webkit-scrollbar{display:none;}
+.ctab{flex-shrink:0;padding:5px 14px;border-radius:999px;border:1.5px solid #e0e0e0;background:none;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;color:#999;white-space:nowrap;}
+.ctab.on{background:#FF9F43;color:#fff;border-color:#FF9F43;}
+.ctab-add{flex-shrink:0;width:30px;height:30px;border-radius:999px;border:1.5px dashed #ccc;background:none;font-size:18px;color:#aaa;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+#filter-bar{display:flex;gap:6px;padding:6px max(10px,env(safe-area-inset-left)) 6px max(10px,env(safe-area-inset-left));background:rgba(255,255,255,0.97);border-bottom:1px solid rgba(0,0,0,0.05);flex-shrink:0;}
+.ftab{flex:1;padding:6px 0;border-radius:999px;border:1.5px solid #e0e0e0;background:none;font-size:12px;font-weight:700;font-family:inherit;cursor:pointer;color:#999;text-align:center;}
+.ftab.on{background:#FF9F43;color:#fff;border-color:#FF9F43;}
+#nav{height:68px;background:rgba(255,255,255,0.97);border-bottom:1px solid rgba(0,0,0,0.07);display:flex;align-items:center;padding:0 max(10px,env(safe-area-inset-left));gap:8px;overflow-x:auto;scrollbar-width:none;flex-shrink:0;}
 #nav::-webkit-scrollbar{display:none;}
 .ni{flex-shrink:0;width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:2.5px solid transparent;transition:all .15s;overflow:hidden;background:#f5f5f5;}
 .ni.on{border-color:#FF9F43;box-shadow:0 2px 10px rgba(255,159,67,0.4);}
@@ -32,6 +40,7 @@ body{font-family:-apple-system,'Hiragino Maru Gothic Pro',sans-serif;}
 #hint{position:absolute;bottom:20px;left:0;right:0;text-align:center;font-size:13px;color:rgba(255,255,255,0.7);pointer-events:none;}
 #cnt{position:absolute;bottom:20px;right:max(16px,env(safe-area-inset-right,16px));background:rgba(255,255,255,0.25);border-radius:99px;padding:4px 14px;font-size:15px;font-weight:700;color:#fff;z-index:3;pointer-events:none;}
 #sync-badge{position:absolute;top:12px;left:max(12px,env(safe-area-inset-left,12px));background:rgba(255,255,255,0.25);border-radius:99px;padding:4px 10px;font-size:11px;color:#fff;z-index:3;pointer-events:none;}
+#user-badge{position:absolute;top:12px;right:max(12px,env(safe-area-inset-right,12px));background:rgba(255,255,255,0.25);border-radius:99px;padding:4px 10px;font-size:11px;color:#fff;z-index:3;cursor:pointer;}
 .bubble{position:absolute;border-radius:50%;pointer-events:none;animation:rise 1.1s ease-out forwards;z-index:5;}
 @keyframes rise{0%{opacity:.9;transform:translateY(0) scale(1);}100%{opacity:0;transform:translateY(-200px) scale(1.8);}}
 .npop{position:absolute;pointer-events:none;animation:nrise .9s ease-out forwards;z-index:6;font-weight:700;font-size:28px;color:#fff;text-shadow:0 2px 4px rgba(0,0,0,0.2);}
@@ -40,24 +49,22 @@ body{font-family:-apple-system,'Hiragino Maru Gothic Pro',sans-serif;}
 #loading-overlay .logo{font-size:64px;margin-bottom:12px;}
 #loading-overlay .ltxt{font-size:18px;font-weight:700;margin-bottom:6px;}
 #loading-overlay .lsub{font-size:13px;opacity:.7;}
-#login-screen{position:fixed;inset:0;background:#FF9F43;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:998;color:#fff;display:none;}
+#login-screen{position:fixed;inset:0;background:#FF9F43;display:none;flex-direction:column;align-items:center;justify-content:center;z-index:998;color:#fff;}
 #login-screen .logo{font-size:80px;margin-bottom:16px;}
 #login-screen h1{font-size:24px;font-weight:700;margin-bottom:8px;}
 #login-screen p{font-size:14px;opacity:.8;margin-bottom:32px;}
 #login-btn{background:#fff;color:#FF9F43;border:none;border-radius:14px;padding:14px 32px;font-size:16px;font-weight:700;font-family:inherit;cursor:pointer;display:flex;align-items:center;gap:10px;box-shadow:0 4px 16px rgba(0,0,0,0.15);}
-#login-btn:active{transform:scale(0.97);}
-#login-btn img{width:22px;height:22px;}
-#user-badge{position:absolute;top:12px;right:max(12px,env(safe-area-inset-right,12px));background:rgba(255,255,255,0.25);border-radius:99px;padding:4px 10px;font-size:11px;color:#fff;z-index:3;cursor:pointer;}
-#mbg,#embg{position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:100;display:none;align-items:flex-end;justify-content:center;}
-#mbg.on,#embg.on{display:flex;}
-#modal,#emmodal{background:#fff;border-radius:24px 24px 0 0;padding:20px 20px 44px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;}
-#modal h2,#emmodal h2{font-size:17px;font-weight:700;margin-bottom:14px;text-align:center;color:#333;}
+#mbg,#embg,#catbg{position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:100;display:none;align-items:flex-end;justify-content:center;}
+#mbg.on,#embg.on,#catbg.on{display:flex;}
+#modal,#emmodal,#catmodal{background:#fff;border-radius:24px 24px 0 0;padding:20px 20px 44px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;}
+#modal h2,#emmodal h2,#catmodal h2{font-size:17px;font-weight:700;margin-bottom:14px;text-align:center;color:#333;}
 #pprev,#epprev{width:100%;height:130px;border-radius:14px;background:#f5f5f5;border:2px dashed #ddd;display:flex;align-items:center;justify-content:center;margin-bottom:12px;overflow:hidden;cursor:pointer;}
 #pprev img,#epprev img{width:100%;height:100%;object-fit:cover;border-radius:12px;}
 #pprev span,#epprev span{font-size:13px;color:#bbb;}
 .mlbl{font-size:12px;color:#999;font-weight:600;margin-bottom:5px;letter-spacing:.04em;}
 .minp{width:100%;height:44px;border:1.5px solid #e0e0e0;border-radius:10px;padding:0 12px;font-size:15px;font-family:inherit;outline:none;background:#fafafa;color:#333;margin-bottom:12px;}
 .minp:focus{border-color:#FF9F43;}
+.msel{width:100%;height:44px;border:1.5px solid #e0e0e0;border-radius:10px;padding:0 12px;font-size:15px;font-family:inherit;outline:none;background:#fafafa;color:#333;margin-bottom:12px;-webkit-appearance:none;}
 .rec-area{background:#fff8f0;border-radius:14px;padding:14px;margin-bottom:12px;border:1.5px solid #ffe0b0;}
 .rec-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
 .rec-title{font-size:13px;font-weight:700;color:#FF9F43;}
@@ -76,10 +83,12 @@ body{font-family:-apple-system,'Hiragino Maru Gothic Pro',sans-serif;}
 .mb{height:46px;border-radius:12px;border:none;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;}
 .mb.cc{background:#f0f0f0;color:#666;}
 .mb.ok{background:#FF9F43;color:#fff;}
+.mb.del{background:#FF6B6B;color:#fff;}
+.cat-list{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;}
+.cat-item{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#f5f5f5;border-radius:12px;}
+.cat-item span{font-size:15px;font-weight:600;color:#333;}
+.cat-del{width:32px;height:32px;border-radius:8px;border:none;background:#FF6B6B;color:#fff;font-size:16px;cursor:pointer;}
 #finp,#efinp{display:none;}
-#filter-bar{display:flex;gap:6px;padding:8px max(10px,env(safe-area-inset-left)) 6px max(10px,env(safe-area-inset-left));background:rgba(255,255,255,0.97);border-bottom:1px solid rgba(0,0,0,0.05);flex-shrink:0;}
-.ftab{flex:1;padding:7px 0;border-radius:999px;border:1.5px solid #e0e0e0;background:none;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;color:#999;text-align:center;}
-.ftab.on{background:#FF9F43;color:#fff;border-color:#FF9F43;}
 </style>
 </head>
 <body>
@@ -99,6 +108,10 @@ body{font-family:-apple-system,'Hiragino Maru Gothic Pro',sans-serif;}
 </div>
 <audio id="snd" style="display:none"></audio>
 <div id="app">
+  <div id="cat-bar">
+    <button class="ctab on" data-cat="すべて">すべて</button>
+    <button class="ctab-add" id="btn-cat-manage">+</button>
+  </div>
   <div id="filter-bar">
     <button class="ftab on" data-f="all">すべて</button>
     <button class="ftab" data-f="rec">録音あり</button>
@@ -120,6 +133,8 @@ body{font-family:-apple-system,'Hiragino Maru Gothic Pro',sans-serif;}
     <div id="hint">タップしてね</div>
   </div>
 </div>
+
+<!-- 追加モーダル -->
 <div id="mbg">
   <div id="modal">
     <h2>どうぶつを追加</h2>
@@ -127,7 +142,8 @@ body{font-family:-apple-system,'Hiragino Maru Gothic Pro',sans-serif;}
     <input type="file" id="finp" accept="image/*">
     <div class="mlbl">なまえ（ひらがな）</div>
     <input class="minp" id="iname" placeholder="例：いぬ">
-
+    <div class="mlbl">カテゴリ</div>
+    <select class="msel" id="icat"></select>
     <div class="rec-area">
       <div class="rec-top"><div class="rec-title">なきごえを録音</div><div class="rec-status" id="rec-status">準備OK</div></div>
       <div class="rec-wave" id="rec-wave">
@@ -147,6 +163,8 @@ body{font-family:-apple-system,'Hiragino Maru Gothic Pro',sans-serif;}
     </div>
   </div>
 </div>
+
+<!-- 編集モーダル -->
 <div id="embg">
   <div id="emmodal">
     <h2>編集</h2>
@@ -154,6 +172,8 @@ body{font-family:-apple-system,'Hiragino Maru Gothic Pro',sans-serif;}
     <input type="file" id="efinp" accept="image/*">
     <div class="mlbl">なまえ</div>
     <input class="minp" id="einame" placeholder="例：いぬ">
+    <div class="mlbl">カテゴリ</div>
+    <select class="msel" id="ecat"></select>
     <div class="rec-area">
       <div class="rec-top"><div class="rec-title">なきごえを録音</div><div class="rec-status" id="erec-status">準備OK</div></div>
       <div class="rec-wave" id="erec-wave">
@@ -173,9 +193,24 @@ body{font-family:-apple-system,'Hiragino Maru Gothic Pro',sans-serif;}
     </div>
   </div>
 </div>
+
+<!-- カテゴリ管理モーダル -->
+<div id="catbg">
+  <div id="catmodal">
+    <h2>カテゴリ管理</h2>
+    <div class="cat-list" id="cat-list"></div>
+    <div class="mlbl">新しいカテゴリを追加</div>
+    <div style="display:flex;gap:8px;margin-bottom:16px;">
+      <input class="minp" id="new-cat-name" placeholder="例：のりもの" style="margin-bottom:0;flex:1;">
+      <button class="mb ok" id="btn-add-cat" style="width:80px;height:44px;">追加</button>
+    </div>
+    <button class="mb cc" id="catcancel" style="width:100%;">閉じる</button>
+  </div>
+</div>
+
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import {getFirestore,collection,getDocs,addDoc,updateDoc,deleteDoc,doc,onSnapshot,orderBy,query} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import {getFirestore,collection,getDocs,addDoc,updateDoc,deleteDoc,doc,onSnapshot,orderBy,query,setDoc,getDoc} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import {getAuth,GoogleAuthProvider,signInWithPopup,signInWithRedirect,getRedirectResult,signOut,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const firebaseConfig={apiKey:"AIzaSyDBRJo-sjKrU_I1qmpT8vT984WHig3GoaQ",authDomain:"doubutsu-39cd6.firebaseapp.com",projectId:"doubutsu-39cd6",storageBucket:"doubutsu-39cd6.firebasestorage.app",messagingSenderId:"665574501069",appId:"1:665574501069:web:f3867e7979d07cee6fd784"};
@@ -186,29 +221,31 @@ const provider=new GoogleAuthProvider();
 
 const BGS=['#FF9F43','#FF6B9D','#5E9CFF','#3DC3A3','#A78BFA','#FB7185','#34D399','#FBBF24'];
 const BCS=['#FF6B6B','#FF9F43','#FFDD57','#48C774','#3273DC','#B86BFF','#FF6B9D','#5E9CFF'];
+const DEFAULT_CATS=['どうぶつ','くだもの','やさい','かぞく'];
 const DEFS=[
-  {emoji:'🐶',name:'いぬ',sound:'わんわん',img:null,audio:null,bg:'#FF9F43',order:0},
-  {emoji:'🐱',name:'ねこ',sound:'にゃーにゃー',img:null,audio:null,bg:'#FF6B9D',order:1},
-  {emoji:'🐮',name:'うし',sound:'もーもー',img:null,audio:null,bg:'#5E9CFF',order:2},
-  {emoji:'🐷',name:'ぶた',sound:'ぶーぶー',img:null,audio:null,bg:'#FF85C0',order:3},
-  {emoji:'🐸',name:'かえる',sound:'けろけろ',img:null,audio:null,bg:'#3DC3A3',order:4},
-  {emoji:'🐥',name:'ひよこ',sound:'ぴよぴよ',img:null,audio:null,bg:'#FBBF24',order:5},
-  {emoji:'🐘',name:'ぞう',sound:'ぱおーん',img:null,audio:null,bg:'#A78BFA',order:6},
-  {emoji:'🦁',name:'らいおん',sound:'がおー',img:null,audio:null,bg:'#FB7185',order:7},
-  {emoji:'🍎',name:'りんご',sound:'りんご',img:null,audio:null,bg:'#E24B4A',order:8},
-  {emoji:'🍌',name:'ばなな',sound:'ばなな',img:null,audio:null,bg:'#FBBF24',order:9},
-  {emoji:'🍊',name:'みかん',sound:'みかん',img:null,audio:null,bg:'#FF9F43',order:10},
-  {emoji:'🍇',name:'ぶどう',sound:'ぶどう',img:null,audio:null,bg:'#A78BFA',order:11},
-  {emoji:'🍓',name:'いちご',sound:'いちご',img:null,audio:null,bg:'#FB7185',order:12},
-  {emoji:'🥦',name:'ぶろっこりー',sound:'ぶろっこりー',img:null,audio:null,bg:'#34D399',order:13},
-  {emoji:'🥕',name:'にんじん',sound:'にんじん',img:null,audio:null,bg:'#FF9F43',order:14},
-  {emoji:'🍆',name:'なす',sound:'なす',img:null,audio:null,bg:'#A78BFA',order:15},
-  {emoji:'🌽',name:'とうもろこし',sound:'とうもろこし',img:null,audio:null,bg:'#FBBF24',order:16},
+  {emoji:'🐶',name:'いぬ',sound:'わんわん',img:null,audio:null,bg:'#FF9F43',order:0,category:'どうぶつ'},
+  {emoji:'🐱',name:'ねこ',sound:'にゃーにゃー',img:null,audio:null,bg:'#FF6B9D',order:1,category:'どうぶつ'},
+  {emoji:'🐮',name:'うし',sound:'もーもー',img:null,audio:null,bg:'#5E9CFF',order:2,category:'どうぶつ'},
+  {emoji:'🐷',name:'ぶた',sound:'ぶーぶー',img:null,audio:null,bg:'#FF85C0',order:3,category:'どうぶつ'},
+  {emoji:'🐸',name:'かえる',sound:'けろけろ',img:null,audio:null,bg:'#3DC3A3',order:4,category:'どうぶつ'},
+  {emoji:'🐥',name:'ひよこ',sound:'ぴよぴよ',img:null,audio:null,bg:'#FBBF24',order:5,category:'どうぶつ'},
+  {emoji:'🐘',name:'ぞう',sound:'ぱおーん',img:null,audio:null,bg:'#A78BFA',order:6,category:'どうぶつ'},
+  {emoji:'🦁',name:'らいおん',sound:'がおー',img:null,audio:null,bg:'#FB7185',order:7,category:'どうぶつ'},
+  {emoji:'🍎',name:'りんご',sound:'りんご',img:null,audio:null,bg:'#E24B4A',order:8,category:'くだもの'},
+  {emoji:'🍌',name:'ばなな',sound:'ばなな',img:null,audio:null,bg:'#FBBF24',order:9,category:'くだもの'},
+  {emoji:'🍊',name:'みかん',sound:'みかん',img:null,audio:null,bg:'#FF9F43',order:10,category:'くだもの'},
+  {emoji:'🍇',name:'ぶどう',sound:'ぶどう',img:null,audio:null,bg:'#A78BFA',order:11,category:'くだもの'},
+  {emoji:'🍓',name:'いちご',sound:'いちご',img:null,audio:null,bg:'#FB7185',order:12,category:'くだもの'},
+  {emoji:'🥦',name:'ぶろっこりー',sound:'ぶろっこりー',img:null,audio:null,bg:'#34D399',order:13,category:'やさい'},
+  {emoji:'🥕',name:'にんじん',sound:'にんじん',img:null,audio:null,bg:'#FF9F43',order:14,category:'やさい'},
+  {emoji:'🍆',name:'なす',sound:'なす',img:null,audio:null,bg:'#A78BFA',order:15,category:'やさい'},
+  {emoji:'🌽',name:'とうもろこし',sound:'とうもろこし',img:null,audio:null,bg:'#FBBF24',order:16,category:'やさい'},
 ];
 
-let animals=[],cur=0,cnt=0,switching=false,uid=null,unsubAnimals=null,curFilter='all';
-let mediaRec=null,recAudioData=null,waveTimer=null,pdata=null;
-let eMediaRec=null,eRecAudioData=null,eWaveTimer=null,epdata=null,editId=null;
+let animals=[],categories=[...DEFAULT_CATS],cur=0,cnt=0,switching=false,uid=null,unsubAnimals=null;
+let curCat='すべて',curFilter='all';
+let mediaRec=null,recAudioData=null,pdata=null;
+let eMediaRec=null,eRecAudioData=null,epdata=null,editId=null;
 
 const snd=document.getElementById('snd');
 
@@ -219,17 +256,12 @@ function initVoices(){
   const vs=speechSynthesis.getVoices();
   if(vs.length>0) jaVoice=vs.find(v=>v.lang==='ja-JP')||vs.find(v=>v.lang.startsWith('ja'))||null;
 }
-if(window.speechSynthesis){
-  speechSynthesis.onvoiceschanged=initVoices;
-  initVoices();
-  setTimeout(initVoices,500);setTimeout(initVoices,1500);
-}
+if(window.speechSynthesis){speechSynthesis.onvoiceschanged=initVoices;initVoices();setTimeout(initVoices,500);setTimeout(initVoices,1500);}
+
 function speak(a){
   if(a.audio){
-    try{
-      snd.pause();snd.src=a.audio;snd.load();
-      snd.play().catch(()=>{const au=new Audio(a.audio);au.play().catch(()=>fallback(a.sound));});
-    }catch(e){fallback(a.sound);}
+    try{snd.pause();snd.src=a.audio;snd.load();snd.play().catch(()=>{const au=new Audio(a.audio);au.play().catch(()=>fallback(a.sound));});}
+    catch(e){fallback(a.sound);}
   } else fallback(a.sound);
 }
 function fallback(txt){
@@ -242,43 +274,29 @@ function fallback(txt){
     speechSynthesis.speak(u);
   }catch(e){}
 }
-
-// 他アプリ切替時に音声停止
-document.addEventListener('visibilitychange',()=>{
-  if(document.hidden){snd.pause();if(window.speechSynthesis)speechSynthesis.cancel();}
-});
+document.addEventListener('visibilitychange',()=>{if(document.hidden){snd.pause();if(window.speechSynthesis)speechSynthesis.cancel();}});
 
 // ── 認証 ──
 document.getElementById('login-btn').addEventListener('click',async()=>{
   try{
     await signInWithPopup(auth,provider);
   }catch(e){
-    // ポップアップが失敗したらリダイレクトを試みる
     if(e.code==='auth/popup-blocked'||e.code==='auth/popup-closed-by-user'){
-      try{
-        await signInWithRedirect(auth,provider);
-      }catch(e2){alert('ログインに失敗しました: '+e2.message);}
-    } else {
-      alert('ログインに失敗しました: '+e.message);
-    }
+      try{await signInWithRedirect(auth,provider);}catch(e2){alert('ログインに失敗しました');}
+    } else {alert('ログインに失敗しました: '+e.message);}
   }
 });
-document.getElementById('user-badge').addEventListener('click',async()=>{
-  if(confirm('ログアウトしますか？')){await signOut(auth);}
-});
+document.getElementById('user-badge').addEventListener('click',async()=>{if(confirm('ログアウトしますか？'))await signOut(auth);});
 
-// リダイレクト後の処理を先に確認
-getRedirectResult(auth).then(result=>{
-  if(result&&result.user) console.log('redirect login ok');
-}).catch(e=>console.log('redirect err:',e));
+getRedirectResult(auth).catch(e=>console.log('redirect:',e));
 
 onAuthStateChanged(auth,async user=>{
   if(user){
     uid=user.uid;
     document.getElementById('login-screen').style.display='none';
     document.getElementById('loading-overlay').style.display='flex';
-    document.getElementById('loading-overlay').querySelector('.lsub').textContent='データ読み込み中...';
     document.getElementById('user-badge').textContent=user.displayName?.split(' ')[0]||'ログアウト';
+    await loadCategories();
     await initAnimals();
     subscribeAnimals();
     document.getElementById('loading-overlay').style.display='none';
@@ -294,31 +312,38 @@ onAuthStateChanged(auth,async user=>{
 function colRef(){return collection(db,'animals',uid,'list');}
 function setSyncBadge(t){document.getElementById('sync-badge').textContent=t;}
 
+async function loadCategories(){
+  try{
+    const d=await getDoc(doc(db,'settings',uid));
+    if(d.exists()&&d.data().categories) categories=[...d.data().categories];
+    else categories=[...DEFAULT_CATS];
+  }catch(e){categories=[...DEFAULT_CATS];}
+  renderCatBar();
+  updateCatSelects();
+}
+
+async function saveCategories(){
+  try{await setDoc(doc(db,'settings',uid),{categories},{merge:true});}catch(e){}
+}
+
 async function migrateOldData(){
   try{
     const oldSnap=await getDocs(query(collection(db,'animals'),orderBy('order','asc')));
-    if(oldSnap.empty) return;
+    if(oldSnap.empty)return;
     const newSnap=await getDocs(colRef());
     if(newSnap.empty){
       setSyncBadge('データ移行中...');
-      for(const d of oldSnap.docs){
-        const data=d.data();
-        if(data.name) await addDoc(colRef(),data);
-      }
+      for(const d of oldSnap.docs){const data=d.data();if(data.name)await addDoc(colRef(),data);}
     }
-  }catch(e){console.log('migrate err:',e);}
+  }catch(e){}
 }
 
 async function addMissingDefaults(existingAnimals){
-  // 既存データにないデフォルト動物を追加する
   const existingNames=existingAnimals.map(a=>a.name);
   const maxOrder=existingAnimals.reduce((m,a)=>Math.max(m,a.order||0),0);
   let orderOffset=maxOrder+1;
   for(const d of DEFS){
-    if(!existingNames.includes(d.name)){
-      await addDoc(colRef(),{...d,order:orderOffset});
-      orderOffset++;
-    }
+    if(!existingNames.includes(d.name)){await addDoc(colRef(),{...d,order:orderOffset});orderOffset++;}
   }
 }
 
@@ -327,13 +352,8 @@ async function initAnimals(){
   try{
     await migrateOldData();
     const snap=await getDocs(query(colRef(),orderBy('order','asc')));
-    if(snap.empty){
-      for(const d of DEFS)await addDoc(colRef(),d);
-    } else {
-      // 足りないデフォルトを追加
-      const existing=snap.docs.map(d=>({id:d.id,...d.data()}));
-      await addMissingDefaults(existing);
-    }
+    if(snap.empty){for(const d of DEFS)await addDoc(colRef(),d);}
+    else{const existing=snap.docs.map(d=>({id:d.id,...d.data()}));await addMissingDefaults(existing);}
     const snap2=await getDocs(query(colRef(),orderBy('order','asc')));
     animals=snap2.docs.map(d=>({id:d.id,...d.data()}));
     setSyncBadge('✓');
@@ -351,6 +371,96 @@ function subscribeAnimals(){
   },()=>setSyncBadge('オフライン'));
 }
 
+// ── フィルター ──
+function getFiltered(){
+  let list=animals;
+  if(curCat!=='すべて') list=list.filter(a=>(a.category||'どうぶつ')===curCat);
+  if(curFilter==='rec') list=list.filter(a=>a.audio);
+  if(curFilter==='norec') list=list.filter(a=>!a.audio);
+  return list;
+}
+
+// ── カテゴリバー ──
+function renderCatBar(){
+  const bar=document.getElementById('cat-bar');
+  const btn=document.getElementById('btn-cat-manage');
+  bar.querySelectorAll('.ctab').forEach(el=>el.remove());
+  const all=document.createElement('button');
+  all.className='ctab'+(curCat==='すべて'?' on':'');
+  all.dataset.cat='すべて';
+  all.textContent='すべて';
+  all.addEventListener('click',()=>setCat('すべて'));
+  bar.insertBefore(all,btn);
+  categories.forEach(c=>{
+    const el=document.createElement('button');
+    el.className='ctab'+(curCat===c?' on':'');
+    el.dataset.cat=c;
+    el.textContent=c;
+    el.addEventListener('click',()=>setCat(c));
+    bar.insertBefore(el,btn);
+  });
+}
+
+function setCat(c){
+  curCat=c;
+  renderCatBar();
+  const filtered=getFiltered();
+  if(filtered.length>0){cur=animals.indexOf(filtered[0]);setAnimal(cur);}
+  renderNav();
+}
+
+function updateCatSelects(){
+  ['icat','ecat'].forEach(id=>{
+    const sel=document.getElementById(id);
+    if(!sel)return;
+    sel.innerHTML='';
+    categories.forEach(c=>{
+      const opt=document.createElement('option');
+      opt.value=c;opt.textContent=c;
+      sel.appendChild(opt);
+    });
+  });
+}
+
+// ── カテゴリ管理モーダル ──
+document.getElementById('btn-cat-manage').addEventListener('click',()=>{
+  renderCatList();
+  document.getElementById('catbg').classList.add('on');
+});
+document.getElementById('catcancel').addEventListener('click',()=>document.getElementById('catbg').classList.remove('on'));
+document.getElementById('catbg').addEventListener('click',e=>{if(e.target===document.getElementById('catbg'))document.getElementById('catbg').classList.remove('on');});
+document.getElementById('btn-add-cat').addEventListener('click',async()=>{
+  const name=document.getElementById('new-cat-name').value.trim();
+  if(!name){alert('カテゴリ名を入力してね');return;}
+  if(categories.includes(name)){alert('すでにあるカテゴリやで');return;}
+  categories.push(name);
+  await saveCategories();
+  renderCatBar();
+  updateCatSelects();
+  renderCatList();
+  document.getElementById('new-cat-name').value='';
+});
+
+function renderCatList(){
+  const list=document.getElementById('cat-list');
+  list.innerHTML='';
+  categories.forEach(c=>{
+    const item=document.createElement('div');
+    item.className='cat-item';
+    item.innerHTML=`<span>${c}</span><button class="cat-del">✕</button>`;
+    item.querySelector('.cat-del').addEventListener('click',async()=>{
+      if(!confirm(c+'を削除する？'))return;
+      categories=categories.filter(x=>x!==c);
+      await saveCategories();
+      if(curCat===c)setCat('すべて');
+      renderCatBar();
+      updateCatSelects();
+      renderCatList();
+    });
+    list.appendChild(item);
+  });
+}
+
 // ── 表示 ──
 function setAnimal(i){
   if(!animals[i])return;
@@ -365,22 +475,22 @@ function setAnimal(i){
   if(a.audio){snd.src=a.audio;snd.load();}
 }
 
-function getFiltered(){
-  if(curFilter==='rec') return animals.filter(a=>a.audio);
-  if(curFilter==='norec') return animals.filter(a=>!a.audio);
-  return animals;
-}
-
 function renderNav(){
   const nav=document.getElementById('nav'),add=document.getElementById('btnadd');
   nav.querySelectorAll('.ni:not(.nadd)').forEach(el=>el.remove());
   const filtered=getFiltered();
-  filtered.forEach((a)=>{
+  filtered.forEach(a=>{
     const i=animals.indexOf(a);
     const el=document.createElement('div');
     el.className='ni'+(i===cur?' on':'');
     el.innerHTML=a.img?`<img src="${a.img}" alt="${a.name}" draggable="false">`:`<span class="ne">${a.emoji||'🐾'}</span>`;
     el.addEventListener('click',()=>{cur=i;cnt=0;document.getElementById('cnt').textContent='0';setAnimal(i);speak(a);});
+    el.addEventListener('contextmenu',e=>{
+      e.preventDefault();
+      const c=confirm(a.name+'\n\nOK → 編集　キャンセル → 削除');
+      if(c)openEditModal(i);
+      else if(confirm(a.name+'を削除する？'))deleteDoc(doc(db,'animals',uid,'list',a.id));
+    });
     let pt=null,moved=false;
     el.addEventListener('touchstart',()=>{moved=false;pt=setTimeout(()=>{
       if(moved)return;
@@ -392,7 +502,24 @@ function renderNav(){
     el.addEventListener('touchend',()=>clearTimeout(pt),{passive:true});
     nav.insertBefore(el,add);
   });
+  // カーレントが今のフィルターに含まれなければ最初に移動
+  if(filtered.length>0&&!filtered.includes(animals[cur])){
+    cur=animals.indexOf(filtered[0]);
+    setAnimal(cur);
+  }
 }
+
+// ── フィルタータブ ──
+document.querySelectorAll('.ftab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('.ftab').forEach(x=>x.classList.remove('on'));
+    t.classList.add('on');
+    curFilter=t.dataset.f;
+    const filtered=getFiltered();
+    if(filtered.length>0){cur=animals.indexOf(filtered[0]);setAnimal(cur);}
+    renderNav();
+  });
+});
 
 // ── エフェクト ──
 function spawnBubbles(cx,cy){
@@ -423,26 +550,14 @@ document.getElementById('stage').addEventListener('click',e=>{
   setTimeout(()=>tgt.classList.remove('pop'),200);
   if(cnt>=5){
     switching=true;cnt=0;document.getElementById('cnt').textContent='0';
-    cur=(cur+1)%animals.length;
-    setTimeout(()=>{setAnimal(cur);renderNav();speak(animals[cur]);switching=false;},400);
-  }
-});
-// contextmenu handled per nav item
-
-// フィルタータブ
-document.querySelectorAll('.ftab').forEach(t=>{
-  t.addEventListener('click',()=>{
-    document.querySelectorAll('.ftab').forEach(x=>x.classList.remove('on'));
-    t.classList.add('on');
-    curFilter=t.dataset.f;
     const filtered=getFiltered();
     if(filtered.length>0){
-      const newIdx=animals.indexOf(filtered[0]);
-      cur=newIdx;
-      setAnimal(cur);
-    }
-    renderNav();
-  });
+      const currentIdx=filtered.indexOf(animals[cur]);
+      const nextFiltered=filtered[(currentIdx+1)%filtered.length];
+      cur=animals.indexOf(nextFiltered);
+    } else cur=(cur+1)%animals.length;
+    setTimeout(()=>{setAnimal(cur);renderNav();speak(animals[cur]);switching=false;},400);
+  }
 });
 
 // ── 録音ヘルパー ──
@@ -516,11 +631,15 @@ document.getElementById('finp').addEventListener('change',e=>{
 document.getElementById('btnadd').addEventListener('click',()=>{
   if(!uid){alert('ログインしてください');return;}
   pdata=null;recAudioData=null;
-  document.getElementById('iname').value='';document.getElementById('isound').value='';
+  document.getElementById('iname').value='';
+  document.getElementById('isound').value='';
   document.getElementById('pprev').innerHTML='<span>写真をタップして選ぶ</span>';
   document.getElementById('rec-status').textContent='準備OK';
-  document.getElementById('btn-rec').classList.remove('recording');document.getElementById('btn-rec').textContent='録音開始';
-  document.getElementById('btn-stop').disabled=true;document.getElementById('btn-play').disabled=true;
+  document.getElementById('btn-rec').classList.remove('recording');
+  document.getElementById('btn-rec').textContent='録音開始';
+  document.getElementById('btn-stop').disabled=true;
+  document.getElementById('btn-play').disabled=true;
+  updateCatSelects();
   animWave('rec-wave',false,null);
   document.getElementById('mbg').classList.add('on');
 });
@@ -530,12 +649,13 @@ document.getElementById('mbg').addEventListener('click',e=>{if(e.target===docume
 document.getElementById('mok').addEventListener('click',async()=>{
   const name=document.getElementById('iname').value.trim();
   const sound=document.getElementById('isound').value.trim()||'？';
+  const category=document.getElementById('icat').value||categories[0]||'どうぶつ';
   if(!name){alert('なまえを入れてね');return;}
   try{
     setSyncBadge('保存中...');
     let imgToSave=null;
     if(pdata){setSyncBadge('画像圧縮中...');imgToSave=await compressImage(pdata);}
-    await addDoc(colRef(),{emoji:'🐾',name,sound,img:imgToSave||null,audio:recAudioData||null,bg:BGS[animals.length%BGS.length],order:animals.length});
+    await addDoc(colRef(),{emoji:'🐾',name,sound,img:imgToSave||null,audio:recAudioData||null,bg:BGS[animals.length%BGS.length],order:animals.length,category});
     closeAddModal();setSyncBadge('✓');
   }catch(e){alert('保存失敗: '+e.message);setSyncBadge('エラー');}
 });
@@ -558,8 +678,12 @@ function openEditModal(i){
     document.getElementById('eisound').value=a.sound||'';
     document.getElementById('epprev').innerHTML=a.img?`<img src="${a.img}">`:'<span>写真をタップして変更</span>';
     document.getElementById('erec-status').textContent=a.audio?'録音済み':'準備OK';
-    document.getElementById('ebtn-rec').classList.remove('recording');document.getElementById('ebtn-rec').textContent='録音開始';
-    document.getElementById('ebtn-stop').disabled=true;document.getElementById('ebtn-play').disabled=!a.audio;
+    document.getElementById('ebtn-rec').classList.remove('recording');
+    document.getElementById('ebtn-rec').textContent='録音開始';
+    document.getElementById('ebtn-stop').disabled=true;
+    document.getElementById('ebtn-play').disabled=!a.audio;
+    updateCatSelects();
+    document.getElementById('ecat').value=a.category||categories[0]||'どうぶつ';
     animWave('erec-wave',false,null);
     document.getElementById('embg').classList.add('on');
   },350);
@@ -571,10 +695,11 @@ document.getElementById('emok').addEventListener('click',async()=>{
   if(!editId)return;
   const name=document.getElementById('einame').value.trim();
   const sound=document.getElementById('eisound').value.trim();
+  const category=document.getElementById('ecat').value;
   if(!name){alert('なまえを入れてね');return;}
   const a=animals.find(x=>x.id===editId);
   if(!a)return;
-  const upd={name,sound:sound||a.sound};
+  const upd={name,sound:sound||a.sound,category};
   if(epdata!==null){setSyncBadge('画像圧縮中...');upd.img=await compressImage(epdata);}
   if(eRecAudioData!==null)upd.audio=eRecAudioData;
   try{
