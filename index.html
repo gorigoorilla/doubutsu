@@ -251,17 +251,16 @@ document.addEventListener('visibilitychange',()=>{
 // ── 認証 ──
 document.getElementById('login-btn').addEventListener('click',async()=>{
   try{
-    const isSafari=/^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-    const isMobile=/iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    if(isMobile||isSafari){
-      document.getElementById('login-btn').textContent='ログイン中...';
-      await signInWithRedirect(auth,provider);
-    } else {
-      await signInWithPopup(auth,provider);
-    }
+    await signInWithPopup(auth,provider);
   }catch(e){
-    document.getElementById('login-btn').innerHTML='<img src="https://www.google.com/favicon.ico" alt="G"> Googleでログイン';
-    alert('ログインに失敗しました: '+e.message);
+    // ポップアップが失敗したらリダイレクトを試みる
+    if(e.code==='auth/popup-blocked'||e.code==='auth/popup-closed-by-user'){
+      try{
+        await signInWithRedirect(auth,provider);
+      }catch(e2){alert('ログインに失敗しました: '+e2.message);}
+    } else {
+      alert('ログインに失敗しました: '+e.message);
+    }
   }
 });
 document.getElementById('user-badge').addEventListener('click',async()=>{
