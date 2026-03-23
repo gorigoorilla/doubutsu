@@ -251,25 +251,34 @@ document.addEventListener('visibilitychange',()=>{
 // ── 認証 ──
 document.getElementById('login-btn').addEventListener('click',async()=>{
   try{
+    const isSafari=/^((?!chrome|android).)*safari/i.test(navigator.userAgent);
     const isMobile=/iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    if(isMobile){
+    if(isMobile||isSafari){
+      document.getElementById('login-btn').textContent='ログイン中...';
       await signInWithRedirect(auth,provider);
     } else {
       await signInWithPopup(auth,provider);
     }
-  }catch(e){alert('ログインに失敗しました: '+e.message);}
+  }catch(e){
+    document.getElementById('login-btn').innerHTML='<img src="https://www.google.com/favicon.ico" alt="G"> Googleでログイン';
+    alert('ログインに失敗しました: '+e.message);
+  }
 });
 document.getElementById('user-badge').addEventListener('click',async()=>{
   if(confirm('ログアウトしますか？')){await signOut(auth);}
 });
 
-// リダイレクト後の処理
-getRedirectResult(auth).catch(e=>console.log('redirect err:',e));
+// リダイレクト後の処理を先に確認
+getRedirectResult(auth).then(result=>{
+  if(result&&result.user) console.log('redirect login ok');
+}).catch(e=>console.log('redirect err:',e));
 
 onAuthStateChanged(auth,async user=>{
   if(user){
     uid=user.uid;
     document.getElementById('login-screen').style.display='none';
+    document.getElementById('loading-overlay').style.display='flex';
+    document.getElementById('loading-overlay').querySelector('.lsub').textContent='データ読み込み中...';
     document.getElementById('user-badge').textContent=user.displayName?.split(' ')[0]||'ログアウト';
     await initAnimals();
     subscribeAnimals();
