@@ -77,6 +77,9 @@ body{font-family:-apple-system,'Hiragino Maru Gothic Pro',sans-serif;}
 .mb.cc{background:#f0f0f0;color:#666;}
 .mb.ok{background:#FF9F43;color:#fff;}
 #finp,#efinp{display:none;}
+#filter-bar{display:flex;gap:6px;padding:8px max(10px,env(safe-area-inset-left)) 6px max(10px,env(safe-area-inset-left));background:rgba(255,255,255,0.97);border-bottom:1px solid rgba(0,0,0,0.05);flex-shrink:0;}
+.ftab{flex:1;padding:7px 0;border-radius:999px;border:1.5px solid #e0e0e0;background:none;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;color:#999;text-align:center;}
+.ftab.on{background:#FF9F43;color:#fff;border-color:#FF9F43;}
 </style>
 </head>
 <body>
@@ -96,6 +99,11 @@ body{font-family:-apple-system,'Hiragino Maru Gothic Pro',sans-serif;}
 </div>
 <audio id="snd" style="display:none"></audio>
 <div id="app">
+  <div id="filter-bar">
+    <button class="ftab on" data-f="all">すべて</button>
+    <button class="ftab" data-f="rec">録音あり</button>
+    <button class="ftab" data-f="norec">録音なし</button>
+  </div>
   <div id="nav">
     <div class="nadd ni" id="btnadd"><span>+</span></div>
   </div>
@@ -186,9 +194,18 @@ const DEFS=[
   {emoji:'🐥',name:'ひよこ',sound:'ぴよぴよ',img:null,audio:null,bg:'#FBBF24',order:5},
   {emoji:'🐘',name:'ぞう',sound:'ぱおーん',img:null,audio:null,bg:'#A78BFA',order:6},
   {emoji:'🦁',name:'らいおん',sound:'がおー',img:null,audio:null,bg:'#FB7185',order:7},
+  {emoji:'🍎',name:'りんご',sound:'りんご',img:null,audio:null,bg:'#E24B4A',order:8},
+  {emoji:'🍌',name:'ばなな',sound:'ばなな',img:null,audio:null,bg:'#FBBF24',order:9},
+  {emoji:'🍊',name:'みかん',sound:'みかん',img:null,audio:null,bg:'#FF9F43',order:10},
+  {emoji:'🍇',name:'ぶどう',sound:'ぶどう',img:null,audio:null,bg:'#A78BFA',order:11},
+  {emoji:'🍓',name:'いちご',sound:'いちご',img:null,audio:null,bg:'#FB7185',order:12},
+  {emoji:'🥦',name:'ぶろっこりー',sound:'ぶろっこりー',img:null,audio:null,bg:'#34D399',order:13},
+  {emoji:'🥕',name:'にんじん',sound:'にんじん',img:null,audio:null,bg:'#FF9F43',order:14},
+  {emoji:'🍆',name:'なす',sound:'なす',img:null,audio:null,bg:'#A78BFA',order:15},
+  {emoji:'🌽',name:'とうもろこし',sound:'とうもろこし',img:null,audio:null,bg:'#FBBF24',order:16},
 ];
 
-let animals=[],cur=0,cnt=0,switching=false,uid=null,unsubAnimals=null;
+let animals=[],cur=0,cnt=0,switching=false,uid=null,unsubAnimals=null,curFilter='all';
 let mediaRec=null,recAudioData=null,waveTimer=null,pdata=null;
 let eMediaRec=null,eRecAudioData=null,eWaveTimer=null,epdata=null,editId=null;
 
@@ -259,21 +276,31 @@ function colRef(){return collection(db,'animals',uid,'list');}
 function setSyncBadge(t){document.getElementById('sync-badge').textContent=t;}
 
 async function migrateOldData(){
-  // 古い共有animalsコレクションからユーザーのコレクションに移行
   try{
     const oldSnap=await getDocs(query(collection(db,'animals'),orderBy('order','asc')));
     if(oldSnap.empty) return;
     const newSnap=await getDocs(colRef());
-    // 新しい場所にデータがなければ移行
     if(newSnap.empty){
       setSyncBadge('データ移行中...');
       for(const d of oldSnap.docs){
         const data=d.data();
-        // サブコレクション（uidがキーのやつ）は無視
         if(data.name) await addDoc(colRef(),data);
       }
     }
   }catch(e){console.log('migrate err:',e);}
+}
+
+async function addMissingDefaults(existingAnimals){
+  // 既存データにないデフォルト動物を追加する
+  const existingNames=existingAnimals.map(a=>a.name);
+  const maxOrder=existingAnimals.reduce((m,a)=>Math.max(m,a.order||0),0);
+  let orderOffset=maxOrder+1;
+  for(const d of DEFS){
+    if(!existingNames.includes(d.name)){
+      await addDoc(colRef(),{...d,order:orderOffset});
+      orderOffset++;
+    }
+  }
 }
 
 async function initAnimals(){
@@ -281,7 +308,13 @@ async function initAnimals(){
   try{
     await migrateOldData();
     const snap=await getDocs(query(colRef(),orderBy('order','asc')));
-    if(snap.empty){for(const d of DEFS)await addDoc(colRef(),d);}
+    if(snap.empty){
+      for(const d of DEFS)await addDoc(colRef(),d);
+    } else {
+      // 足りないデフォルトを追加
+      const existing=snap.docs.map(d=>({id:d.id,...d.data()}));
+      await addMissingDefaults(existing);
+    }
     const snap2=await getDocs(query(colRef(),orderBy('order','asc')));
     animals=snap2.docs.map(d=>({id:d.id,...d.data()}));
     setSyncBadge('✓');
@@ -313,10 +346,18 @@ function setAnimal(i){
   if(a.audio){snd.src=a.audio;snd.load();}
 }
 
+function getFiltered(){
+  if(curFilter==='rec') return animals.filter(a=>a.audio);
+  if(curFilter==='norec') return animals.filter(a=>!a.audio);
+  return animals;
+}
+
 function renderNav(){
   const nav=document.getElementById('nav'),add=document.getElementById('btnadd');
   nav.querySelectorAll('.ni:not(.nadd)').forEach(el=>el.remove());
-  animals.forEach((a,i)=>{
+  const filtered=getFiltered();
+  filtered.forEach((a)=>{
+    const i=animals.indexOf(a);
     const el=document.createElement('div');
     el.className='ni'+(i===cur?' on':'');
     el.innerHTML=a.img?`<img src="${a.img}" alt="${a.name}" draggable="false">`:`<span class="ne">${a.emoji||'🐾'}</span>`;
@@ -368,6 +409,22 @@ document.getElementById('stage').addEventListener('click',e=>{
   }
 });
 document.addEventListener('contextmenu',e=>{e.preventDefault();return false;});
+
+// フィルタータブ
+document.querySelectorAll('.ftab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('.ftab').forEach(x=>x.classList.remove('on'));
+    t.classList.add('on');
+    curFilter=t.dataset.f;
+    const filtered=getFiltered();
+    if(filtered.length>0){
+      const newIdx=animals.indexOf(filtered[0]);
+      cur=newIdx;
+      setAnimal(cur);
+    }
+    renderNav();
+  });
+});
 
 // ── 録音ヘルパー ──
 function getMime(){
