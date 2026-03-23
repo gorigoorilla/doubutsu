@@ -428,7 +428,7 @@ document.getElementById('stage').addEventListener('click',e=>{
     setTimeout(()=>{setAnimal(cur);renderNav();speak(animals[cur]);switching=false;},400);
   }
 });
-document.addEventListener('contextmenu',e=>{e.preventDefault();return false;});
+// contextmenu handled per nav item
 
 // フィルタータブ
 document.querySelectorAll('.ftab').forEach(t=>{
