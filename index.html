@@ -127,16 +127,7 @@ body{font-family:-apple-system,'Hiragino Maru Gothic Pro',sans-serif;}
     <input type="file" id="finp" accept="image/*">
     <div class="mlbl">なまえ（ひらがな）</div>
     <input class="minp" id="iname" placeholder="例：いぬ">
-    <div style="margin-bottom:12px;">
-      <div class="mlbl">base64テキストから写真を読み込む（任意）</div>
-      <textarea id="import-photo" placeholder="barba_photo.txtの中身を貼り付け" style="width:100%;height:80px;border:1.5px solid #e0e0e0;border-radius:10px;padding:8px 12px;font-size:13px;font-family:inherit;outline:none;background:#fafafa;color:#333;resize:vertical;margin-bottom:6px;"></textarea>
-      <button id="btn-import-photo" style="width:100%;height:38px;border-radius:10px;border:none;background:#5E9CFF;color:#fff;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;">写真データを適用</button>
-    </div>
-    <div style="margin-bottom:12px;">
-      <div class="mlbl">base64テキストから音声を読み込む（任意）</div>
-      <textarea id="import-audio" placeholder="barba_audio.txtの中身を貼り付け" style="width:100%;height:80px;border:1.5px solid #e0e0e0;border-radius:10px;padding:8px 12px;font-size:13px;font-family:inherit;outline:none;background:#fafafa;color:#333;resize:vertical;margin-bottom:6px;"></textarea>
-      <button id="btn-import-audio" style="width:100%;height:38px;border-radius:10px;border:none;background:#5E9CFF;color:#fff;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;">音声データを適用</button>
-    </div>
+
     <div class="rec-area">
       <div class="rec-top"><div class="rec-title">なきごえを録音</div><div class="rec-status" id="rec-status">準備OK</div></div>
       <div class="rec-wave" id="rec-wave">
@@ -280,23 +271,7 @@ onAuthStateChanged(auth,async user=>{
     uid=user.uid;
     document.getElementById('login-screen').style.display='none';
     document.getElementById('user-badge').textContent=user.displayName?.split(' ')[0]||'ログアウト';
-    document.getElementById('btn-import-photo').addEventListener('click',()=>{
-  const val=document.getElementById('import-photo').value.trim();
-  if(!val){alert('テキストを貼り付けてください');return;}
-  pdata=val.startsWith('data:')?val:'data:image/jpeg;base64,'+val;
-  document.getElementById('pprev').innerHTML='<img src="'+pdata+'">';
-  alert('写真データを適用しました！');
-});
-document.getElementById('btn-import-audio').addEventListener('click',()=>{
-  const val=document.getElementById('import-audio').value.trim();
-  if(!val){alert('テキストを貼り付けてください');return;}
-  recAudioData=val.startsWith('data:')?val:'data:audio/mp4;base64,'+val;
-  document.getElementById('btn-play').disabled=false;
-  document.getElementById('rec-status').textContent='音声データ読み込み済み！';
-  alert('音声データを適用しました！');
-});
-
-await initAnimals();
+    await initAnimals();
     subscribeAnimals();
     document.getElementById('loading-overlay').style.display='none';
   } else {
