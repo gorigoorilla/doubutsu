@@ -280,7 +280,23 @@ onAuthStateChanged(auth,async user=>{
     uid=user.uid;
     document.getElementById('login-screen').style.display='none';
     document.getElementById('user-badge').textContent=user.displayName?.split(' ')[0]||'ログアウト';
-    await initAnimals();
+    document.getElementById('btn-import-photo').addEventListener('click',()=>{
+  const val=document.getElementById('import-photo').value.trim();
+  if(!val){alert('テキストを貼り付けてください');return;}
+  pdata=val.startsWith('data:')?val:'data:image/jpeg;base64,'+val;
+  document.getElementById('pprev').innerHTML='<img src="'+pdata+'">';
+  alert('写真データを適用しました！');
+});
+document.getElementById('btn-import-audio').addEventListener('click',()=>{
+  const val=document.getElementById('import-audio').value.trim();
+  if(!val){alert('テキストを貼り付けてください');return;}
+  recAudioData=val.startsWith('data:')?val:'data:audio/mp4;base64,'+val;
+  document.getElementById('btn-play').disabled=false;
+  document.getElementById('rec-status').textContent='音声データ読み込み済み！';
+  alert('音声データを適用しました！');
+});
+
+await initAnimals();
     subscribeAnimals();
     document.getElementById('loading-overlay').style.display='none';
   } else {
